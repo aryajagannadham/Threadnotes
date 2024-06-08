@@ -6,18 +6,23 @@
     <title>Threadnotes</title>
     <link rel="icon" type="image/x-icon" href="favicon.png">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <h1>Threadnotes</h1>
-        <textarea id="tweetInput" placeholder="Write your note here..."></textarea>
+        <textarea id="noteInput" placeholder="Write your note here..."></textarea>
         <div class="button-container">
-            <button id="addTweetButton">Add Note to Thread</button>
-            <button id="saveThreadButton">Save Thread</button>
-            <button id="deleteThreadButton">Delete Thread</button>
+            <div class="left-buttons">
+                <button id="addNoteButton"><img src="add-note.png" alt="Add Note"></button>
+                <button id="saveThreadButton"><img src="save-thread.png" alt="Save Thread"></button>
+                <button id="clearThreadButton"><img src="clear-thread.png" alt="Clear Thread"></button>
+            </div>
+            <div class="right-buttons">
+                <button id="reverseOrderButton"><img src="reverse-order.png" alt="Reverse Order"></button>
+            </div>
         </div>
-        <div id="tweetThread"></div>
+        <div id="noteThread"></div>
     </div>
     <script src="script.js"></script>
 </body>
