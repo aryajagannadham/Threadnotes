@@ -38,7 +38,8 @@ textarea {
     border: 1px solid #ddd;
     border-radius: 8px;
     box-sizing: border-box;
-    font-size: 1.2em;
+    font-size: 1.1em;
+    line-height: 1.7em;
     background: #fafafa;
     resize: none;
 }
@@ -46,45 +47,70 @@ textarea {
 .button-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px; /* Adjusted margin */
+}
+
+.left-buttons {
+    display: flex;
+    margin-right: auto; /* Pushes left buttons to the far left */
+}
+
+button:not(:last-child) {
+    margin-right: 15px; /* Add margin between buttons */
+}
+
+.right-buttons {
+    display: flex;
+    margin-left: auto; /* Pushes right button to the far right */
 }
 
 button {
     font-family: 'Sora', sans-serif;
-    flex: 1;
-    padding: 10px 20px;
+    padding: 5px; /* Decreased padding */
     border: none;
-    border-radius: 20px;
+    border-radius: 50%; /* Circular shape */
     cursor: pointer;
-    font-size: 0.85em;
-    margin: 0 5px;
+    font-size: 1.5em; /* Increased font size */
+    margin: 0; /* Removed margin */
     transition: background 0.15s ease;
-    background: #121212;
-    color: #fff;
+    background: #121212; /* Dark gray background */
+    color: #fff; /* White text color */
     font-weight: 500; /* Medium weight */
+    width: 50px; /* Decreased width */
+    height: 50px; /* Decreased height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 button:hover {
-    background: #333;
+    background: #333; /* Darker gray on hover */
 }
 
-#tweetThread {
+button img {
+    width: 40%; /* Adjust icon size */
+    height: auto;
+}
+
+#noteThread {
     margin-top: 20px;
     flex-grow: 1;
-    overflow-y: auto; /* Make the tweet thread scrollable */
+    overflow-y: auto; /* Make the note thread scrollable */
     padding-right: 10px; /* Add padding to prevent scrollbar overlap */
 }
 
-.tweet {
+.note {
     background: #ffffff;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 15px;
     position: relative;
     border: 1px solid #ddd;
+    font-family: 'Work Sans', sans-serif; /* Change font to Work Sans */
 }
 
-.tweet .content {
+.note .content {
     font-size: 1em;
     line-height: 1.6em;
     margin-bottom: 10px;
@@ -92,7 +118,8 @@ button:hover {
 }
 
 .timestamp {
-    font-size: 0.85em;
+    font-size: 0.9em; /* Changed font size */
     color: #777;
     text-align: right;
 }
+
