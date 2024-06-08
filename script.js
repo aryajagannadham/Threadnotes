@@ -1,93 +1,114 @@
-document.getElementById('addTweetButton').addEventListener('click', addTweet);
+document.getElementById('addNoteButton').addEventListener('click', addNote);
 document.getElementById('saveThreadButton').addEventListener('click', saveThread);
-document.getElementById('deleteThreadButton').addEventListener('click', deleteThread);
+document.getElementById('clearThreadButton').addEventListener('click', clearThread);
+document.getElementById('reverseOrderButton').addEventListener('click', reverseOrder);
 
-function addTweet() {
-    const tweetInput = document.getElementById('tweetInput');
-    const tweetThread = document.getElementById('tweetThread');
-    const tweetContent = tweetInput.value.trim();
-    
-    if (tweetContent === "") {
-        alert("Tweet cannot be empty!");
+let isReversed = false;
+
+function addNote() {
+    const noteInput = document.getElementById('noteInput');
+    const noteThread = document.getElementById('noteThread');
+    const noteContent = noteInput.value.trim();
+
+    if (noteContent === "") {
+        alert("Note cannot be empty!");
         return;
     }
 
-    const tweetElement = document.createElement('div');
-    tweetElement.classList.add('tweet');
-    
+    const noteElement = document.createElement('div');
+    noteElement.classList.add('note');
+
     const contentElement = document.createElement('div');
     contentElement.classList.add('content');
-    contentElement.textContent = tweetContent;
-    
+    contentElement.textContent = noteContent;
+
     const timestampElement = document.createElement('div');
     timestampElement.classList.add('timestamp');
     timestampElement.textContent = formatTimestamp(new Date());
-    
-    tweetElement.appendChild(contentElement);
-    tweetElement.appendChild(timestampElement);
-    
-    tweetThread.prepend(tweetElement); // Prepend the new tweet
 
-    tweetInput.value = "";
+    noteElement.appendChild(contentElement);
+    noteElement.appendChild(timestampElement);
+
+    if (isReversed) {
+        noteThread.appendChild(noteElement); // Append the new note at the end if reversed
+    } else {
+        noteThread.prepend(noteElement); // Prepend the new note if not reversed
+    }
+
+    noteInput.value = "";
 }
 
 function formatTimestamp(date) {
     const options = { hour: 'numeric', minute: 'numeric', hour12: true };
     const timeString = date.toLocaleString('en-US', options);
-    
+
     const day = date.getDate();
     const month = date.toLocaleString('en-US', { month: 'long' });
     const year = date.getFullYear();
-    
+
     return `${timeString} • ${day} ${month}, ${year}`;
 }
 
 function saveThread() {
-    const tweetThread = document.getElementById('tweetThread');
-    const tweets = tweetThread.getElementsByClassName('tweet');
+    const noteThread = document.getElementById('noteThread');
+    const notes = noteThread.getElementsByClassName('note');
     const thread = [];
 
-    for (let tweet of tweets) {
-        const content = tweet.getElementsByClassName('content')[0].textContent;
-        const timestamp = tweet.getElementsByClassName('timestamp')[0].textContent;
+    for (let note of notes) {
+        const content = note.getElementsByClassName('content')[0].textContent;
+        const timestamp = note.getElementsByClassName('timestamp')[0].textContent;
         thread.push({ content, timestamp });
     }
 
-    localStorage.setItem('tweetThread', JSON.stringify(thread));
+    localStorage.setItem('noteThread', JSON.stringify(thread));
     alert("Thread saved!");
 }
 
-function deleteThread() {
-    if (confirm("Are you sure you want to delete the saved thread?")) {
-        localStorage.removeItem('tweetThread');
-        const tweetThread = document.getElementById('tweetThread');
-        tweetThread.innerHTML = "";
+function clearThread() {
+    if (confirm("Are you sure you want to clear the thread?")) {
+        localStorage.removeItem('noteThread');
+        const noteThread = document.getElementById('noteThread');
+        noteThread.innerHTML = "";
     }
 }
 
+function reverseOrder() {
+    const noteThread = document.getElementById('noteThread');
+    const notes = Array.from(noteThread.children);
+    noteThread.innerHTML = "";
+
+    notes.reverse().forEach(note => noteThread.appendChild(note));
+
+    isReversed = !isReversed;
+}
+
 window.onload = function() {
-    const savedThread = JSON.parse(localStorage.getItem('tweetThread'));
+    const savedThread = JSON.parse(localStorage.getItem('noteThread'));
 
     if (savedThread) {
-        const tweetThread = document.getElementById('tweetThread');
-        tweetThread.innerHTML = "";
+        const noteThread = document.getElementById('noteThread');
+        noteThread.innerHTML = "";
 
-        for (let tweet of savedThread) {
-            const tweetElement = document.createElement('div');
-            tweetElement.classList.add('tweet');
-            
+        for (let note of savedThread) {
+            const noteElement = document.createElement('div');
+            noteElement.classList.add('note');
+
             const contentElement = document.createElement('div');
             contentElement.classList.add('content');
-            contentElement.textContent = tweet.content;
-            
+            contentElement.textContent = note.content;
+
             const timestampElement = document.createElement('div');
             timestampElement.classList.add('timestamp');
-            timestampElement.textContent = tweet.timestamp;
-            
-            tweetElement.appendChild(contentElement);
-            tweetElement.appendChild(timestampElement);
-            
-            tweetThread.appendChild(tweetElement); // Keep the same order when loading
+            timestampElement.textContent = note.timestamp;
+
+            noteElement.appendChild(contentElement);
+            noteElement.appendChild(timestampElement);
+
+            noteThread.appendChild(noteElement); // Keep the same order when loading
+        }
+
+        if (isReversed) {
+            reverseOrder(); // Ensure the order is correct after loading
         }
     }
 }
